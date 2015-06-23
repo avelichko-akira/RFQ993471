@@ -1,4 +1,5 @@
 var generate;
+var tags;
 Template.home.rendered = function() {
 	
 	Meteor.call('drug_label', 'oral', function(error, res) {
@@ -58,7 +59,7 @@ var fill = d3.scale.category20b(),
     h = 600,
     words = [],
     max, scale = 1,    
-    tags, fontSize,   
+    fontSize,   
     layout = d3.layout.cloud().timeInterval(10).size([w, h]).fontSize(function(t) {
         return fontSize(+t.value)
     }).text(function(t) {
@@ -86,16 +87,21 @@ var fill = d3.scale.category20b(),
 
 
 Template.home.events({
-	'change #search' : function() {
+	'change #search' : function(evt, template) {
 
 		$('.loading').show();
 
-		Meteor.call('drug_label', $('#serach').val(), function(error, res) {
+		var val =  template.find('#search').value;
+		//console.log(val);
+		Meteor.call('drug_label', val, function(error, res) {
 			console.log("call drub.label");		
 			$('.loading').hide();
+			tags = [];
 			if (!error) {
-				tags = res;			
-				generate(tags);
+				tags = res;		
+				console.log(res);
+				console.log(tags)	;
+				generate(tags);				
 				$('.loading').hide();
 			} else {
 				console.log("error");
