@@ -1,6 +1,7 @@
+var generate;
 Template.home.rendered = function() {
 	
-	Meteor.call('drug_label', function(error, res) {
+	Meteor.call('drug_label', 'oral', function(error, res) {
 		console.log("call drub.label");		
 		$('.loading').hide();
 		if (!error) {
@@ -13,7 +14,7 @@ Template.home.rendered = function() {
 
 
 
-function generate(words) {
+	generate = function(words) {
 
     fontSize = d3.scale.linear().range([18, 100]),
 
@@ -84,3 +85,23 @@ var fill = d3.scale.category20b(),
 };
 
 
+Template.home.events({
+	'change #search' : function() {
+
+		$('.loading').show();
+
+		Meteor.call('drug_label', $('#serach').val(), function(error, res) {
+			console.log("call drub.label");		
+			$('.loading').hide();
+			if (!error) {
+				tags = res;			
+				generate(tags);
+				$('.loading').hide();
+			} else {
+				console.log("error");
+				$('.loading').hide();
+			}
+		});
+
+	}
+});

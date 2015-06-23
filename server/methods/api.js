@@ -11,6 +11,8 @@ Meteor.startup(function() {
 			if (blacklist.test(item) || tags[item] > 0) {
 				arr[i] = arr[arr.length - 1].toLowerCase();
 				arr.length -= 1;
+				if (!blacklist.test(item))
+					tags[item] = (tags[item] || 0) + 1;
 			} else {
 				tags[item] = (tags[item] || 0) + 1;
 				i++;
@@ -37,11 +39,13 @@ Meteor.startup(function() {
 
 	Meteor.methods({
 
-		drug_label : function() {			
+		drug_label : function(param) {			
 			var api_key = "aMPyEqulzBLRTglncaRK6iGVR5pnbARPOKJySErf";
 			var url = "https://api.fda.gov/drug/label.json?";
 			url += 'api_key=' + api_key + '&';
-			url += 'search=_exists_:' + 'boxed_warning';
+			url += 'search=' + param;
+
+			//console.log(url);
 
 			var result = Meteor.http.get(url, {timeout:30000})
 			if (result.statusCode == 200) {
@@ -50,13 +54,14 @@ Meteor.startup(function() {
 				var words = [];
 
 				for (var i = 0; i < res.results.length; i++) {
-					warnings += res.results[i].warnings;					
+					var data =  (res.results[i].warnings || res.results[i].warnings_and_cautions);					
+					warnings += data[0];
 				}
 
 				words = warnings.match(/\w+/g);
 				
 				var uwords = uniqueArray(words);
-				console.log(uwords);
+				//console.log(uwords);
 				return uwords;
 			} else {
 				console.log('Response issue', result.statusCode);
