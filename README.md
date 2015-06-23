@@ -1,6 +1,9 @@
 # meteor - Word Cloud System 
 
-This system includes iron-router, Bootstrap 3, Font Awesome, LESS and more.
+- Summary
+
+  This project is to show the data visualation using d3 word clud library. 
+   
 
 - Development
 
@@ -22,10 +25,7 @@ This system includes iron-router, Bootstrap 3, Font Awesome, LESS and more.
     `cd <yourapp>`    
     `meteor deloy <site url>`    
 
-- Summary
-  
-  This project is to show the data visualation using d3 word clud library. 
-  To get the words library We made the rest api. 
+- code
 
   server/methods/api.js
     - drug_label
@@ -42,6 +42,8 @@ This system includes iron-router, Bootstrap 3, Font Awesome, LESS and more.
     We create the d3 object and called the drug_label api. 
     after we get the data , it's displayed in screen.
       
-
+- test
+  We installed jasmine, vector plugin to the project. 
+  Jasmine is very easy to take the unit test. 
 
 
