@@ -109,5 +109,26 @@ Template.home.events({
 			}
 		});
 
+	},
+	'click #searchbtn' : function(evt, template) {
+		$('.loading').show();
+
+		var val =  template.find('#search').value;
+		//console.log(val);
+		Meteor.call('drug_label', val, function(error, res) {
+			console.log("call drub.label");		
+			$('.loading').hide();
+			tags = [];
+			if (!error) {
+				tags = res;		
+				console.log(res);
+				console.log(tags)	;
+				generate(tags);				
+				$('.loading').hide();
+			} else {
+				console.log("error");
+				$('.loading').hide();
+			}
+		});
 	}
 });
