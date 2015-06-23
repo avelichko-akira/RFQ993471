@@ -2,9 +2,9 @@ Template.home.rendered = function() {
 	
 	Meteor.call('drug_label', function(error, res) {
 		console.log("call drub.label");		
-		
+		$('.loading').hide();
 		if (!error) {
-			tags = res;
+			tags = res;			
 			generate(tags);
 		} else {
 			console.log("error");
@@ -51,9 +51,9 @@ function draw(t, e) {
     }), a.transition().duration(1e3).style("opacity", 1e-6).remove(), vis.transition().delay(1e3).duration(750).attr("transform", "translate(" + [w >> 1, h >> 1] + ")scale(" + scale + ")")
 }
 
-
+	
 var fill = d3.scale.category20b(),
-    w = 960,
+    w = $('#words').width(),
     h = 600,
     words = [],
     max, scale = 1,    
@@ -77,7 +77,9 @@ var fill = d3.scale.category20b(),
 
     layout.rotate(function() {
         return d(~~(Math.random() * c))
-    })
+    });
+
+    $('.loading').show();
 
 };
 
