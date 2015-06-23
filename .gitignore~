@@ -1,0 +1,6 @@
+.meteor/local
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+dump
+settings.json
